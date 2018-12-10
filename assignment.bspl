@@ -1,0 +1,14 @@
+Assignment {
+    roles I, T, S // Instructor, TA, Student
+    parameters out aID key, out submission, out grade, out tentativeGrade
+    private extensionReason, extension, regradeReason
+    
+    I -> S: postAssignment[out aID]
+    S -> T: postSubmission[in aID, out submission]
+    S -> I: requestExtension[in aID, out extensionReason, nil submission]
+    I -> S: extension[in aID, in extensionReason, out extension]
+    T -> S: postGrade[in aID, in submission, out tentativeGrade]
+    S -> T: acceptGrade[in aID, in tentativeGrade, out grade, nil regradeReason]
+    S -> T: requestRegrade[in aID, in tentativeGrade, out regradeReason, nil grade]
+    T -> S: regrade[in aID, in regradeReason, out grade]
+}
